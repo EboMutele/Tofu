@@ -1,11 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 import Link from 'next/link';
 
-export default function AuthPage() {
+function AuthForm() {
+  const searchParams = useSearchParams();
   const [isLogin, setIsLogin] = useState(false);
   const [isVerifyPending, setIsVerifyPending] = useState(false);
+
+  useEffect(() => {
+    const mode = searchParams.get("mode");
+    if (mode === "login") setIsLogin(true);
+    if (mode === "signup") setIsLogin(false);
+  }, [searchParams]);
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -132,3 +140,12 @@ export default function AuthPage() {
     </div>
   );
 }
+
+export default function AuthPage() {
+  return (
+    <Suspense fallback={<div className="flex-1 flex items-center justify-center text-white">Loading Auth...</div>}>
+      <AuthForm />
+    </Suspense>
+  );
+}
+

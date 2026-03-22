@@ -1,6 +1,8 @@
+import Link from 'next/link';
+
 export default function PremiumPicks() {
   // In a real app, we would verify the user's session and subscription tier here.
-  const isPremium = true; 
+  const isPremium = false; 
 
   const mockSlips = [
     {
@@ -29,15 +31,76 @@ export default function PremiumPicks() {
 
   if (!isPremium) {
     return (
-      <div className="container mx-auto px-6 py-20 text-center">
-        <div className="glass max-w-lg mx-auto p-10 rounded-3xl border border-brand/30 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand to-brand-light"></div>
-          <div className="text-5xl mb-6">🔒</div>
-          <h2 className="text-2xl font-bold text-white mb-4">Premium Access Required</h2>
-          <p className="text-gray-400 mb-8">Unlock AI-verified high-confidence accumulators with total odds of 6.0+ every single day.</p>
-          <a href="/pricing" className="inline-block bg-brand text-white font-bold py-3 px-8 rounded-lg hover:scale-105 transition-transform">
-            View Plans
-          </a>
+      <div className="container mx-auto px-6 py-20 min-h-[calc(100vh-160px)] flex items-center justify-center relative overflow-hidden">
+        {/* Background glow effects */}
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-brand/10 rounded-full blur-[100px] -z-10 mix-blend-screen opacity-50" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[100px] -z-10 mix-blend-screen opacity-30" />
+
+        <div className="max-w-3xl w-full glass p-10 rounded-[2.5rem] border border-brand/20 shadow-2xl relative z-10 backdrop-blur-3xl text-center">
+          <div className="inline-block glass px-4 py-1.5 rounded-full text-[10px] font-black tracking-[0.2em] text-brand border border-brand/10 uppercase mb-8">
+            Premium Access
+          </div>
+          
+          <div className="w-20 h-20 rounded-2xl bg-brand/10 mx-auto flex items-center justify-center mb-10 border border-brand/30 shadow-[0_0_30px_rgba(220,31,92,0.15)] transform -rotate-12">
+            <span className="text-4xl">💎</span>
+          </div>
+
+          <h2 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tight leading-tight">
+            Unlock High-Value <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand to-brand-light">AI Accumulators</span>
+          </h2>
+          
+          <p className="text-gray-400 max-w-xl mx-auto mb-12 text-lg leading-relaxed">
+            Every day, our AI engine scrutinizes over 2,000 matches to curate two exclusive slips with total odds exceeding 6.0+.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-6 text-left mb-12 px-2">
+            <div className="glass p-5 rounded-2xl border border-white/5 hover:border-brand/30 transition-all group">
+              <h3 className="text-brand font-black text-xs uppercase tracking-widest mb-2 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand group-hover:animate-pulse"></span>
+                Strategic Mastery
+              </h3>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                6.0+ average total odds target, focused on ROI and strategic long-term consistency.
+              </p>
+            </div>
+            <div className="glass p-5 rounded-2xl border border-white/5 hover:border-brand/30 transition-all group">
+              <h3 className="text-brand font-black text-xs uppercase tracking-widest mb-2 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand group-hover:animate-pulse"></span>
+                Claude AI Verdict
+              </h3>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                Advanced AI tactical verification notes for every selected match in the slip.
+              </p>
+            </div>
+            <div className="glass p-5 rounded-2xl border border-white/5 hover:border-brand/30 transition-all group">
+              <h3 className="text-brand font-black text-xs uppercase tracking-widest mb-2 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand group-hover:animate-pulse"></span>
+                VIP Network
+              </h3>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                Direct access to the Premium VIP Telegram channel with instant slip notifications.
+              </p>
+            </div>
+            <div className="glass p-5 rounded-2xl border border-white/5 hover:border-brand/30 transition-all group">
+              <h3 className="text-brand font-black text-xs uppercase tracking-widest mb-2 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand group-hover:animate-pulse"></span>
+                Higher Confidence
+              </h3>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                Minimum confidence threshold of 88% required for any premium slip generation.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+            <Link href="/pricing" className="w-full sm:w-auto bg-brand text-white font-black px-12 py-4 rounded-xl hover:bg-brand-light transition-all shadow-xl hover:shadow-brand/20 active:scale-95 text-sm uppercase tracking-widest">
+              Upgrade to Premium
+            </Link>
+            <Link href="/picks/free" className="w-full sm:w-auto text-gray-400 hover:text-white font-bold py-4 px-8 text-sm transition-colors decoration-brand/30 decoration-2 underline-offset-8 hover:underline">
+              View Free Picks
+            </Link>
+          </div>
         </div>
       </div>
     );

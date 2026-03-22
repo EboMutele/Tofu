@@ -1,15 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLogged, setIsLogged] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    setIsLogged(!!localStorage.getItem("user") || !!localStorage.getItem("isAdmin"));
+    setIsAdmin(!!localStorage.getItem("isAdmin"));
+  }, [pathname]);
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("isAdmin");
+    setIsLogged(false);
+    setIsAdmin(false);
+    window.location.href = "/";
+  };
 
   const navLinks = [
     { name: "Free Picks", href: "/picks/free" },
@@ -50,10 +65,26 @@ export default function Navbar() {
         {/* Auth Buttons / Hamburger */}
         <div className="flex items-center gap-3">
           <div className="hidden sm:flex items-center gap-3">
-            <Link href="/auth" className="text-sm font-medium hover:text-white transition-colors">Sign In</Link>
-            <Link href="/auth" className="bg-brand text-white px-5 py-2 text-sm rounded-md font-semibold hover:bg-brand-light shadow-[0_4px_14px_0_rgba(220,31,92,0.39)] transition-all">
-              Get Started
-            </Link>
+            {!isLogged ? (
+              <>
+                <Link href="/auth?mode=login" className="text-sm font-medium hover:text-white transition-colors">Sign In</Link>
+                <Link href="/auth?mode=signup" className="bg-brand text-white px-5 py-2 text-sm rounded-md font-semibold hover:bg-brand-light shadow-[0_4px_14px_0_rgba(220,31,92,0.39)] transition-all">
+                  Get Started
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link href={isAdmin ? "/admin" : "/dashboard"} className="text-sm font-bold text-brand hover:text-brand-light transition-colors">
+                  {isAdmin ? "Admin Panel" : "My Dashboard"}
+                </Link>
+                <button 
+                  onClick={handleLogout}
+                  className="text-xs bg-white/5 hover:bg-white/10 text-gray-400 px-4 py-2 rounded-lg font-bold transition-all"
+                >
+                  Log Out
+                </button>
+              </>
+            )}
           </div>
 
           {/* Hamburger Toggle */}
@@ -97,20 +128,40 @@ export default function Navbar() {
           ))}
           
           <div className="mt-8 pt-8 border-t border-white/5 flex flex-col gap-4">
-            <Link 
-              href="/auth" 
-              onClick={closeMenu}
-              className="w-full py-4 text-center font-bold text-gray-400 hover:text-white transition-colors border border-white/10 rounded-xl"
-            >
-              Sign In
-            </Link>
-            <Link 
-              href="/auth" 
-              onClick={closeMenu}
-              className="w-full py-4 text-center font-bold text-white bg-brand rounded-xl shadow-lg shadow-brand/20 active:scale-95 transition-all"
-            >
-              Get Started Now
-            </Link>
+            {!isLogged ? (
+              <>
+                <Link 
+                  href="/auth?mode=login" 
+                  onClick={closeMenu}
+                  className="w-full py-4 text-center font-bold text-gray-400 hover:text-white transition-colors border border-white/10 rounded-xl"
+                >
+                  Sign In
+                </Link>
+                <Link 
+                  href="/auth?mode=signup" 
+                  onClick={closeMenu}
+                  className="w-full py-4 text-center font-bold text-white bg-brand rounded-xl shadow-lg shadow-brand/20 active:scale-95 transition-all"
+                >
+                  Get Started Now
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link 
+                  href={isAdmin ? "/admin" : "/dashboard"}
+                  onClick={closeMenu}
+                  className="w-full py-4 text-center font-bold text-white bg-brand/10 border border-brand/20 rounded-xl"
+                >
+                  {isAdmin ? "Admin command" : "View Dashboard"}
+                </Link>
+                <button 
+                  onClick={handleLogout}
+                  className="w-full py-4 text-center font-bold text-red-500 border border-red-500/10 rounded-xl"
+                >
+                  Log Out
+                </button>
+              </>
+            )}
           </div>
         </nav>
       </div>

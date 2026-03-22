@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Enum
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey, Enum, Boolean
 from sqlalchemy.orm import relationship
 import enum
 from datetime import datetime
@@ -11,6 +11,9 @@ class User(Base):
     password_hash = Column(String, nullable=False)
     plan_type = Column(String, default="FREE") # FREE, PREMIUM, VIP
     subscription_status = Column(String, default="ACTIVE")
+    is_verified = Column(Boolean, default=False)
+    is_active = Column(Boolean, default=True)
+    verification_token = Column(String, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
 
 class Match(Base):

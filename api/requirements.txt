@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+sqlalchemy[asyncio]
+asyncpg
+alembic
+beautifulsoup4
+playwright
+python-telegram-bot
+tweepy
+redis
+anthropic
+python-dotenv
+apscheduler
+pydantic
+pydantic-settings
